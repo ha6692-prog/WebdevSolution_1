@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Update Doctor Profile - HealthCare+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Update Doctor Profile</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="specialization" class="form-label">Specialization</label>
+                            <input type="text" class="form-control" id="specialization" name="specialization"
+                                value="{{ doctor_profile.specialization }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="experience" class="form-label">Experience (years)</label>
+                            <input type="number" class="form-control" id="experience" name="experience"
+                                value="{{ doctor_profile.experience }}" min="0" required>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="available" name="available" {% if
+                                doctor_profile.available %}checked{% endif %}>
+                            <label class="form-check-label" for="available">Available for appointments</label>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                            <a href="{% url 'doctor_profile' %}" class="btn btn-secondary">Cancel</a>
+                            <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --text-light: #9ca3af;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f9fafb;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--bg-gradient);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: white;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: white;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--bg-primary);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        /* Stepper Styles */
+        .stepper {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .stepper::before {
+            content: "";
+            position: absolute;
+            top: 16px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: #e5e7eb;
+            z-index: 1;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .step.active .step-icon {
+            background: var(--bg-gradient);
+            color: white;
+        }
+
+        .step.completed .step-icon {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        /* Doctor Selection */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doctor-card {
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .doctor-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .doctor-info {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .doctor-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-right: 1rem;
+        }
+
+        .doctor-details {
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .doctor-specialty {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-rating .material-icons {
+            color: var(--warning);
+            font-size: 1.125rem;
+        }
+
+        .doctor-fee {
+            background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .doctor-availability {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-top: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .doctor-availability .material-icons {
+            color: var(--primary);
+            font-size: 1.125rem;
+        }
+
+        .doctor-availability span {
+            font-weight: 500;
+            color: var(--primary);
+        }
+
+        /* Date and Time Selection */
+        .date-time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .date-time-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .date-picker-container, .time-slots-container {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background-color: var(--bg-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .date-picker-container h3, .time-slots-container h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .date-picker-container h3 .material-icons, 
+        .time-slots-container h3 .material-icons {
+            color: var(--primary);
+        }
+
+        .date-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .time-slot {
+            padding: 0.5rem;
+            border: 1px solid var(--primary);
+            border-radius: var(--border-radius);
+            background: transparent;
+            color: var(--primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .time-slot.selected {
+            background: var(--bg-gradient);
+            color: white;
+        }
+
+        /* Appointment Type Selection */
+        .appointment-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .appointment-type {
+            border: 1px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .appointment-type:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .appointment-type.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .appointment-type-icon {
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .appointment-type-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .appointment-type-price {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .appointment-type-price.positive {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .appointment-type-price.negative {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Confirmation Styles */
+        .confirmation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .doctor-summary {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .doctor-summary-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+
+        .appointment-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .appointment-detail {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .appointment-detail .material-icons {
+            color: var(--primary);
+        }
+
+        .cost-breakdown {
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .cost-total span:last-child {
+            color: var(--primary);
+        }
+
+        /* Navigation Buttons */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background: rgba(102, 126, 234, 0.04);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-primary {
+            background: var(--bg-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
+        }
+
+        /* Success Screen */
+        .success-screen {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: var(--border-radius-lg);
+            animation: popIn 0.6s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            animation: popIn 0.8s ease-out 0.3s both;
+        }
+
+        .success-title {
+            font-size: 2.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            background: var(--bg-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-message {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .info-alert {
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mb-2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem;
+        }
+
+        .mt-2 {
+            margin-top: 0.5rem;
+        }
+
+        .mt-3 {
+            margin-top: 1rem;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Book Appointment</h1>
+                <p>Schedule your consultation with our expert doctors</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stepper Section -->
+        <div class="card">
+            <div class="card-content">
+                <div class="stepper">
+                    <div class="step active" id="step1">
+                        <div class="step-icon">1</div>
+                        <div class="step-label">Select Doctor</div>
+                    </div>
+                    <div class="step" id="step2">
+                        <div class="step-icon">2</div>
+                        <div class="step-label">Choose Date & Time</div>
+                    </div>
+                    <div class="step" id="step3">
+                        <div class="step-icon">3</div>
+                        <div class="step-label">Appointment Details</div>
+                    </div>
+                    <div class="step" id="step4">
+                        <div class="step-icon">4</div>
+                        <div class="step-label">Confirmation</div>
+                    </div>
+                </div>
+
+                <!-- Step 1: Select Doctor -->
+                <div id="step1-content" class="step-content">
+                    <h2 class="mb-3">Choose Your Doctor</h2>
+                    <div class="doctors-grid" id="doctors-container">
+                        <!-- Doctors will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Choose Date & Time -->
+                <div id="step2-content" class="step-content hidden">
+                    <h2 class="mb-3">Select Date & Time</h2>
+                    <div class="date-time-grid">
+                        <div class="date-picker-container">
+                            <h3><span class="material-icons">calendar_today</span> Choose Date</h3>
+                            <input type="date" id="datePicker" class="date-input" min="">
+                        </div>
+                        <div class="time-slots-container">
+                            <h3><span class="material-icons">access_time</span> Available Times</h3>
+                            <div class="time-slots" id="timeSlotsContainer">
+                                <!-- Time slots will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Appointment Details -->
+                <div id="step3-content" class="step-content hidden">
+                    <h2 class="mb-3">Appointment Details</h2>
+                    <div class="mb-4">
+                        <h3 class="mb-2">Appointment Type</h3>
+                        <div class="appointment-types" id="appointmentTypesContainer">
+                            <!-- Appointment types will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="reason" class="form-label">Reason for Visit</label>
+                            <textarea id="reason" class="form-textarea" placeholder="Please describe your primary concern..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="symptoms" class="form-label">Symptoms (Optional)</label>
+                            <textarea id="symptoms" class="form-textarea" placeholder="List any symptoms you're experiencing..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Confirmation -->
+                <div id="step4-content" class="step-content hidden">
+                    <h2 class="mb-3">Appointment Summary</h2>
+                    <div class="confirmation-grid">
+                        <div>
+                            <div class="doctor-summary">
+                                <div class="doctor-summary-avatar" id="confirmationDoctorAvatar">SJ</div>
+                                <div>
+                                    <h3 id="confirmationDoctorName">Dr. Sarah Johnson</h3>
+                                    <p id="confirmationDoctorSpecialty">Cardiology</p>
+                                    <div class="doctor-rating">
+                                        <span class="material-icons">star</span>
+                                        <span id="confirmationDoctorRating">4.9</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="appointment-details">
+                                <div class="appointment-detail">
+                                    <span class="material-icons">calendar_today</span>
+                                    <span id="confirmationDate">Monday, January 1, 2023</span>
+                                </div>
+                                <div class="appointment-detail">
+                                    <span class="material-icons">access_time</span>
+                                    <span id="confirmationTime">9:00 AM</span>
+                                </div>
+                                <div class="appointment-detail">
+                                    <span class="material-icons">local_hospital</span>
+                                    <span id="confirmationType">General Consultation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cost-breakdown">
+                                <h3 class="mb-2">Cost Breakdown</h3>
+                                <div class="cost-item">
+                                    <span>Consultation Fee</span>
+                                    <span id="consultationFee">$150</span>
+                                </div>
+                                <div class="cost-item" id="additionalFeeContainer">
+                                    <span id="additionalFeeLabel">Video Consultation Fee</span>
+                                    <span id="additionalFee">-$20</span>
+                                </div>
+                                <div class="cost-total">
+                                    <span>Total</span>
+                                    <span id="totalFee">$130</span>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h4 class="mb-1">Reason for Visit:</h4>
+                                <p id="confirmationReason">Regular checkup</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="navigation">
+                    <button id="backBtn" class="btn btn-outline" disabled>
+                        <span class="material-icons">arrow_back</span>
+                        Back
+                    </button>
+                    <button id="nextBtn" class="btn btn-primary">
+                        Next
+                        <span class="material-icons">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Screen (Hidden by default) -->
+        <div id="successScreen" class="success-screen hidden">
+            <div class="success-icon material-icons">check_circle</div>
+            <h1 class="success-title">Appointment Booked Successfully!</h1>
+            <p class="success-message" id="successMessage">
+                Your appointment with Dr. Sarah Johnson has been confirmed for Monday, January 1, 2023 at 9:00 AM.
+            </p>
+            <div class="info-alert">
+                A confirmation email has been sent to your registered email address.
+            </div>
+            <button class="btn btn-primary" onclick="window.location.href = '/'">
+                Return to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const doctors = [
+            {
+                id: 1,
+                name: 'Dr. Sarah Johnson',
+                specialty: 'Cardiology',
+                consultationFee: 150,
+                rating: 4.9,
+                experience: '15+ years',
+                verified: true,
+                nextAvailable: 'Today 2:00 PM',
+            },
+            {
+                id: 2,
+                name: 'Dr. Michael Chen',
+                specialty: 'Dermatology',
+                consultationFee: 120,
+                rating: 4.8,
+                experience: '12+ years',
+                verified: true,
+                nextAvailable: 'Tomorrow 10:00 AM',
+            },
+            {
+                id: 3,
+                name: 'Dr. Emily Davis',
+                specialty: 'Neurology',
+                consultationFee: 180,
+                rating: 4.9,
+                experience: '18+ years',
+                verified: true,
+                nextAvailable: 'Today 4:30 PM',
+            }
+        ];
+
+        const timeSlots = [
+            '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM',
+            '11:00 AM', '11:30 AM', '02:00 PM', '02:30 PM',
+            '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM',
+        ];
+
+        const appointmentTypes = [
+            { value: 'consultation', label: 'General Consultation', icon: 'person', price: 0 },
+            { value: 'follow-up', label: 'Follow-up Visit', icon: 'schedule', price: -30 },
+            { value: 'video-call', label: 'Video Consultation', icon: 'video_call', price: -20 },
+            { value: 'home-visit', label: 'Home Visit', icon: 'home', price: 50 },
+        ];
+
+        // State
+        let currentStep = 0;
+        let selectedDoctor = null;
+        let selectedDate = null;
+        let selectedTime = '';
+        let selectedAppointmentType = '';
+        let reason = '';
+        let symptoms = '';
+
+        // DOM Elements
+        const stepElements = document.querySelectorAll('.step');
+        const stepContentElements = document.querySelectorAll('.step-content');
+        const progressFill = document.getElementById('progressFill');
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const doctorsContainer = document.getElementById('doctors-container');
+        const datePicker = document.getElementById('datePicker');
+        const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+        const appointmentTypesContainer = document.getElementById('appointmentTypesContainer');
+        const reasonTextarea = document.getElementById('reason');
+        const symptomsTextarea = document.getElementById('symptoms');
+        const successScreen = document.getElementById('successScreen');
+
+        // Set minimum date to today
+        const today = new Date();
+        const formattedDate = today.toISOString().split('T')[0];
+        datePicker.min = formattedDate;
+
+        // Initialize the app
+        function init() {
+            renderDoctors();
+            renderTimeSlots();
+            renderAppointmentTypes();
+            updateStep();
+            setupEventListeners();
+        }
+
+        // Render doctors
+        function renderDoctors() {
+            doctorsContainer.innerHTML = '';
+            
+            doctors.forEach(doctor => {
+                const doctorCard = document.createElement('div');
+                doctorCard.className = `doctor-card ${selectedDoctor?.id === doctor.id ? 'selected' : ''}`;
+                doctorCard.innerHTML = `
+                    <div class="doctor-info">
+                        <div class="doctor-avatar">${doctor.name.split(' ').map(n => n[0]).join('')}</div>
+                        <div class="doctor-details">
+                            <div class="doctor-name">
+                                ${doctor.name}
+                                ${doctor.verified ? '<span class="material-icons" style="color: #10b981; font-size: 18px;">verified</span>' : ''}
+                            </div>
+                            <div class="doctor-specialty">${doctor.specialty} • ${doctor.experience}</div>
+                            <div class="doctor-rating">
+                                <span class="material-icons">star</span>
+                                <span>${doctor.rating}</span>
+                            </div>
+                            <div class="doctor-fee">$${doctor.consultationFee}</div>
+                        </div>
+                    </div>
+                    <div class="doctor-availability">
+                        <span class="material-icons">schedule</span>
+                        <span>Next: ${doctor.nextAvailable}</span>
+                    </div>
+                `;
+                
+                doctorCard.addEventListener('click', () => selectDoctor(doctor));
+                doctorsContainer.appendChild(doctorCard);
+            });
+        }
+
+        // Render time slots
+        function renderTimeSlots() {
+            timeSlotsContainer.innerHTML = '';
+            
+            timeSlots.forEach(slot => {
+                const timeSlot = document.createElement('button');
+                timeSlot.className = `time-slot ${selectedTime === slot ? 'selected' : ''}`;
+                timeSlot.textContent = slot;
+                timeSlot.addEventListener('click', () => selectTime(slot));
+                timeSlotsContainer.appendChild(timeSlot);
+            });
+        }
+
+        // Render appointment types
+        function renderAppointmentTypes() {
+            appointmentTypesContainer.innerHTML = '';
+            
+            appointmentTypes.forEach(type => {
+                const appointmentType = document.createElement('div');
+                appointmentType.className = `appointment-type ${selectedAppointmentType === type.value ? 'selected' : ''}`;
+                appointmentType.innerHTML = `
+                    <div class="appointment-type-icon material-icons">${type.icon}</div>
+                    <div class="appointment-type-label">${type.label}</div>
+                    ${type.price !== 0 ? 
+                        `<div class="appointment-type-price ${type.price > 0 ? 'positive' : 'negative'}">
+                            ${type.price > 0 ? '+' : ''}$${type.price}
+                        </div>` : 
+                        ''
+                    }
+                `;
+                
+                appointmentType.addEventListener('click', () => selectAppointmentType(type));
+                appointmentTypesContainer.appendChild(appointmentType);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            backBtn.addEventListener('click', goToPreviousStep);
+            nextBtn.addEventListener('click', goToNextStep);
+            
+            datePicker.addEventListener('change', (e) => {
+                selectedDate = e.target.value;
+                updateNextButtonState();
+            });
+            
+            reasonTextarea.addEventListener('input', (e) => {
+                reason = e.target.value;
+                updateNextButtonState();
+            });
+            
+            symptomsTextarea.addEventListener('input', (e) => {
+                symptoms = e.target.value;
+            });
+        }
+
+        // Select doctor
+        function selectDoctor(doctor) {
+            selectedDoctor = doctor;
+            renderDoctors();
+            updateNextButtonState();
+        }
+
+        // Select time
+        function selectTime(time) {
+            selectedTime = time;
+            renderTimeSlots();
+            updateNextButtonState();
+        }
+
+        // Select appointment type
+        function selectAppointmentType(type) {
+            selectedAppointmentType = type.value;
+            renderAppointmentTypes();
+            updateNextButtonState();
+        }
+
+        // Update step UI
+        function updateStep() {
+            // Update step indicators
+            stepElements.forEach((step, index) => {
+                if (index < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (index === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+            
+            // Update step content visibility
+            stepContentElements.forEach((content, index) => {
+                if (index === currentStep) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+            
+            // Update progress bar
+            const progress = (currentStep / (stepElements.length - 1)) * 100;
+            progressFill.style.width = `${progress}%`;
+            
+            // Update button states
+            backBtn.disabled = currentStep === 0;
+            
+            // Update next button text
+            if (currentStep === stepElements.length - 1) {
+                nextBtn.innerHTML = 'Confirm Booking <span class="material-icons">check_circle</span>';
+            } else {
+                nextBtn.innerHTML = 'Next <span class="material-icons">arrow_forward</span>';
+            }
+            
+            updateNextButtonState();
+            
+            // Update confirmation screen if we're on the last step
+            if (currentStep === 3) {
+                updateConfirmationScreen();
+            }
+        }
+
+        // Update next button state based on current step
+        function updateNextButtonState() {
+            let canProceed = false;
+            
+            switch (currentStep) {
+                case 0:
+                    canProceed = selectedDoctor !== null;
+                    break;
+                case 1:
+                    canProceed = selectedDate !== null && selectedTime !== '';
+                    break;
+                case 2:
+                    canProceed = selectedAppointmentType !== '' && reason.trim() !== '';
+                    break;
+                case 3:
+                    canProceed = true;
+                    break;
+            }
+            
+            nextBtn.disabled = !canProceed;
+        }
+
+        // Go to next step
+        function goToNextStep() {
+            if (currentStep < stepElements.length - 1) {
+                currentStep++;
+                updateStep();
+            } else {
+                // Final step - book appointment
+                bookAppointment();
+            }
+        }
+
+        // Go to previous step
+        function goToPreviousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStep();
+            }
+        }
+
+        // Update confirmation screen with selected values
+        function updateConfirmationScreen() {
+            if (selectedDoctor) {
+                document.getElementById('confirmationDoctorAvatar').textContent = 
+                    selectedDoctor.name.split(' ').map(n => n[0]).join('');
+                document.getElementById('confirmationDoctorName').textContent = selectedDoctor.name;
+                document.getElementById('confirmationDoctorSpecialty').textContent = selectedDoctor.specialty;
+                document.getElementById('confirmationDoctorRating').textContent = selectedDoctor.rating;
+            }
+
+            // Format and set date
+            if (selectedDate) {
+                const dateObj = new Date(selectedDate);
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                document.getElementById('confirmationDate').textContent = dateObj.toLocaleDateString(undefined, options);
+            } else {
+                document.getElementById('confirmationDate').textContent = '';
+            }
+
+            // Time
+            document.getElementById('confirmationTime').textContent = selectedTime || '';
+
+            // Appointment type
+            if (selectedAppointmentType) {
+                const type = appointmentTypes.find(t => t.value === selectedAppointmentType);
+                document.getElementById('confirmationType').textContent = type ? type.label : '';
+            } else {
+                document.getElementById('confirmationType').textContent = '';
+            }
+
+            // Reason
+            document.getElementById('confirmationReason').textContent = reason || '';
+
+            // Fees and totals
+            const consultation = selectedDoctor ? selectedDoctor.consultationFee : 0;
+            let additional = 0;
+            if (selectedAppointmentType) {
+                const type = appointmentTypes.find(t => t.value === selectedAppointmentType);
+                additional = type ? type.price : 0;
+            }
+
+            document.getElementById('consultationFee').textContent = `$${consultation}`;
+
+            if (additional !== 0) {
+                document.getElementById('additionalFeeContainer').style.display = 'flex';
+                document.getElementById('additionalFeeLabel').textContent = additional > 0 ? 'Additional Fee' : 'Discount';
+                document.getElementById('additionalFee').textContent = `${additional > 0 ? '+' : '-'}$${Math.abs(additional)}`;
+            } else {
+                // hide the additional fee row when not applicable
+                document.getElementById('additionalFeeContainer').style.display = 'none';
+            }
+
+            const total = consultation + additional;
+            document.getElementById('totalFee').textContent = `$${total}`;
+
+            // Update success message preview
+            const doctorName = selectedDoctor ? selectedDoctor.name : 'the doctor';
+            const dateText = document.getElementById('confirmationDate').textContent || '';
+            const timeText = selectedTime || '';
+            const successMsgEl = document.getElementById('successMessage');
+            if (successMsgEl) {
+                successMsgEl.textContent = `Your appointment with ${doctorName} has been confirmed for ${dateText}${dateText && timeText ? ' at ' : ''}${timeText}.`;
+            }
+        }

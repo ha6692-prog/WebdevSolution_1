@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointments | HealthCare+</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: #007bff;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #d1e7ff;
+        }
+
+        .container {
+            margin-top: 6rem;
+            padding: 2rem;
+        }
+
+        .appointments-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .appointments-header h1 {
+            font-size: 2.5rem;
+            color: #007bff;
+        }
+
+        .appointments-header p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .appointments-header a {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .appointment-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.3s;
+        }
+
+        .appointment-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .appointment-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .appointment-info h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .appointment-info p {
+            margin: 0.5rem 0 0;
+            color: #555;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #007bff;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        footer a {
+            color: #d1e7ff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive table */
+        @media (max-width: 768px) {
+            table {
+                font-size: 0.9rem;
+            }
+
+            th,
+            td {
+                padding: 0.5rem !important;
+            }
+
+            .btn {
+                font-size: 0.8rem !important;
+                padding: 0.3rem 0.6rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">HealthCare+</div>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'appointments' %}">Appointments</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="appointments-header">
+            <h1>Your Appointments</h1>
+            <p>Manage your appointments with ease.</p>
+            <a href="{% url 'create_appointment' %}" class="btn" style="margin-top: 1rem;">Create New Appointment</a>
+            <a href="{% url 'profile' %}" class="btn btn-secondary" style="margin-top: 1rem;">Profile</a>
+        </div>
+
+        {% if appointments %}
+        <div style="overflow-x: auto;">
+            <table
+                style="width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                <thead>
+                    <tr style="background-color: #007bff; color: #fff;">
+                        <th style="padding: 1rem; text-align: left;">Appointment ID</th>
+                        <th style="padding: 1rem; text-align: left;">Patient</th>
+                        <th style="padding: 1rem; text-align: left;">Doctor</th>
+                        <th style="padding: 1rem; text-align: left;">Date & Time</th>
+                        <th style="padding: 1rem; text-align: left;">Symptoms</th>
+                        <th style="padding: 1rem; text-align: left;">Status</th>
+                        <th style="padding: 1rem; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 1rem;">{{ appointment.id }}</td>
+                        <td style="padding: 1rem;">{{ appointment.patient.username }}</td>
+                        <td style="padding: 1rem;">
+                            {% if appointment.doctor %}
+                            Dr. {{ appointment.doctor.user.first_name }} {{ appointment.doctor.user.last_name }}
+                            {% else %}
+                            Not Assigned
+                            {% endif %}
+                        </td>
+                        <td style="padding: 1rem;">{{ appointment.date|date:"M d, Y - h:i A" }}</td>
+                        <td style="padding: 1rem;">{{ appointment.symptoms|truncatewords:10 }}</td>
+                        <td style="padding: 1rem;">
+                            <span
+                                style="padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; background-color: {% if appointment.status == 'Confirmed' %}#d4edda{% elif appointment.status == 'Pending' %}#fff3cd{% elif appointment.status == 'Cancelled' %}#f8d7da{% else %}#e2e3e5{% endif %}; color: {% if appointment.status == 'Confirmed' %}#155724{% elif appointment.status == 'Pending' %}#856404{% elif appointment.status == 'Cancelled' %}#721c24{% else %}#6c757d{% endif %};">
+                                {{ appointment.status }}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <a href="{% url 'update_appointment' appointment.id %}" class="btn"
+                                style="margin-right: 0.5rem; font-size: 0.9rem; padding: 0.4rem 0.8rem;">Edit</a>
+                            <a href="{% url 'cancel_appointment' appointment.id %}" class="btn"
+                                style="background-color: #dc3545; font-size: 0.9rem; padding: 0.4rem 0.8rem;">Cancel</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="appointment-card">
+            <div class="appointment-info">
+                <h3>No Appointments Yet</h3>
+                <p>You haven't created any appointments yet. Click the button above to create your first appointment.
+                </p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>&copy; 2025 HealthCare+. All rights reserved. | <a href="{% url 'home' %}">Home</a></p>
+    </footer>
+</body>
+
+</html>

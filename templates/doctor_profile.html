@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Doctor Profile - HealthCare+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title mb-0">Doctor Profile</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Name:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            Dr. {{ doctor_profile.user.get_full_name|default:doctor_profile.user.username }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Specialization:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            {{ doctor_profile.specialization }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Experience:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            {{ doctor_profile.experience }} years
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <strong>Availability:</strong>
+                        </div>
+                        <div class="col-md-6">
+                            <span
+                                class="badge {% if doctor_profile.available %}bg-success{% else %}bg-danger{% endif %}">
+                                {% if doctor_profile.available %}Available{% else %}Not Available{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <a href="{% url 'update_doctor_profile' %}" class="btn btn-primary">Edit Profile</a>
+                        <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
