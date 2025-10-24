@@ -1,0 +1,212 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockter - Sign In</title>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Material UI CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Crispy Forms CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/crispy-bootstrap5@0.7.0/crispy-bootstrap5.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body>
+    <div class="login-container">
+        <!-- Left Side - Welcome Content -->
+        <div class="welcome-section">
+            <h1 class="welcome-title">Welcome Back!</h1>
+            <p class="welcome-subtitle">
+                Sign in to your account and continue your healthcare journey with us.
+            </p>
+
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <span class="material-icons">local_hospital</span>
+                    </div>
+                    <span class="feature-text">Connect with expert doctors</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <span class="material-icons">check_circle</span>
+                    </div>
+                    <span class="feature-text">Secure & encrypted platform</span>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <span class="feature-text">Personalized healthcare</span>
+                </div>
+            </div>
+
+            <p>
+                Don't have an account?
+                <a href="{% url 'register' %}" class="signup-link">Sign up now</a>
+            </p>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="login-card fade-in">
+            <div class="form-header">
+                <h2 class="form-title">Sign In</h2>
+                <p class="form-subtitle">Enter your credentials to access your account</p>
+            </div>
+
+            <!-- Updated Crispy Form -->
+            <form method="post" id="login-form">
+                {% csrf_token %}
+                <div class="crispy-form">
+                    {% crispy form %}
+                </div>
+            </form>
+
+            <div class="forgot-password">
+                <a href="#" class="forgot-link">Forgot your password?</a>
+            </div>
+
+            <div class="divider">
+                <span class="divider-text">OR</span>
+            </div>
+
+            <div class="social-buttons">
+                <button class="social-button google-button">
+                    <span class="material-icons">account_circle</span>
+                    Google
+                </button>
+                <button class="social-button facebook-button">
+                    <span class="material-icons">account_circle</span>
+                    Facebook
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crispy-bootstrap5@0.7.0/crispy-bootstrap5.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.getElementById('login-form');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const togglePasswordButton = document.getElementById('toggle-password');
+            const submitButton = document.getElementById('submit-button');
+            const errorAlert = document.getElementById('error-alert');
+            const emailError = document.getElementById('email-error');
+            const passwordError = document.getElementById('password-error');
+
+            let isPasswordVisible = false;
+            let isLoading = false;
+
+            // Toggle password visibility
+            togglePasswordButton.addEventListener('click', function () {
+                isPasswordVisible = !isPasswordVisible;
+                passwordInput.type = isPasswordVisible ? 'text' : 'password';
+                togglePasswordButton.innerHTML = isPasswordVisible ?
+                    '<span class="material-icons">visibility_off</span>' :
+                    '<span class="material-icons">visibility</span>';
+            });
+
+            // Form validation
+            function validateForm() {
+                let isValid = true;
+
+                // Email validation
+                const email = emailInput.value.trim();
+                if (!email) {
+                    emailError.textContent = 'Email is required';
+                    emailError.style.display = 'block';
+                    emailInput.classList.add('error');
+                    isValid = false;
+                } else if (!/\S+@\S+\.\S+/.test(email)) {
+                    emailError.textContent = 'Please enter a valid email address';
+                    emailError.style.display = 'block';
+                    emailInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    emailError.style.display = 'none';
+                    emailInput.classList.remove('error');
+                }
+
+                // Password validation
+                const password = passwordInput.value;
+                if (!password) {
+                    passwordError.textContent = 'Password is required';
+                    passwordError.style.display = 'block';
+                    passwordInput.classList.add('error');
+                    isValid = false;
+                } else if (password.length < 6) {
+                    passwordError.textContent = 'Password must be at least 6 characters';
+                    passwordError.style.display = 'block';
+                    passwordInput.classList.add('error');
+                    isValid = false;
+                } else {
+                    passwordError.style.display = 'none';
+                    passwordInput.classList.remove('error');
+                }
+
+                return isValid;
+            }
+
+            // Clear validation errors on input
+            emailInput.addEventListener('input', function () {
+                if (emailInput.classList.contains('error')) {
+                    emailError.style.display = 'none';
+                    emailInput.classList.remove('error');
+                }
+            });
+
+            passwordInput.addEventListener('input', function () {
+                if (passwordInput.classList.contains('error')) {
+                    passwordError.style.display = 'none';
+                    passwordInput.classList.remove('error');
+                }
+            });
+
+            // Form submission
+            loginForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                if (!validateForm() || isLoading) {
+                    return;
+                }
+
+                // Simulate login process
+                isLoading = true;
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<div class="loading-spinner"></div> Signing In...';
+
+                // Simulate API call
+                setTimeout(() => {
+                    // Show error
+                    errorAlert.style.display = 'block';
+                    isLoading = false;
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Sign In <span class="material-icons">arrow_forward</span>';
+
+                    // Hide error after 5 seconds
+                    setTimeout(() => {
+                        errorAlert.style.display = 'none';
+                    }, 5000);
+                }
+                }, 1500);
+        });
+        // Fix signup link
+        document.querySelector('.signup-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = "{% url 'register' %}";
+        });
+        });
+    </script>
+</body>
+
+</html>

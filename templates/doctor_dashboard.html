@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Doctor Dashboard - HealthCare+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Doctor Dashboard</h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Doctor Profile</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p><strong>Name:</strong> Dr. {{ doctor_profile.user.get_full_name }}</p>
+                            <p><strong>Specialization:</strong> {{ doctor_profile.specialization }}</p>
+                            <p><strong>Experience:</strong> {{ doctor_profile.experience }} years</p>
+                            <p><strong>Status:</strong>
+                                <span
+                                    class="badge {% if doctor_profile.available %}bg-success{% else %}bg-danger{% endif %}">
+                                    {% if doctor_profile.available %}Available{% else %}Not Available{% endif %}
+                                </span>
+                            </p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <a href="{% url 'update_doctor_profile' %}" class="btn btn-primary">Update Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">My Appointments</h5>
+                </div>
+                <div class="card-body">
+                    {% if appointments %}
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Date & Time</th>
+                                    <th>Symptoms</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment.patient.get_full_name|default:appointment.patient.username }}
+                                    </td>
+                                    <td>{{ appointment.date|date:"M d, Y H:i" }}</td>
+                                    <td>{{ appointment.symptoms|truncatewords:10 }}</td>
+                                    <td>
+                                        <span class="badge 
+                                                {% if appointment.status == 'Confirmed' %}bg-success
+                                                {% elif appointment.status == 'Pending' %}bg-warning
+                                                {% else %}bg-danger{% endif %}">
+                                            {{ appointment.status }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'update_appointment' appointment.id %}"
+                                            class="btn btn-sm btn-outline-primary">Update</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No appointments scheduled.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <a href="{% url 'doctor_profile' %}" class="btn btn-secondary">View Full Profile</a>
+            <a href="{% url 'appointments' %}" class="btn btn-primary">View Appointments</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

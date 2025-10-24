@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockter - Your Health, Our Priority</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        /* Header Styles */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            min-height: 70px;
+        }
+
+        /* Logo and Brand */
+        .logo-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-container {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo-icon {
+            color: #667eea;
+            font-size: 28px;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+        }
+
+        .brand-subtitle {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 400;
+            margin-top: -2px;
+        }
+
+        /* Spacer */
+        .spacer {
+            flex-grow: 1;
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-header {
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: none;
+        }
+
+        .btn-text {
+            color: white;
+            background: transparent;
+        }
+
+        .btn-text:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-contained {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-contained:hover {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* User Section */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Role Chip */
+        .role-chip {
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            transition: background 0.3s ease;
+        }
+
+        .role-chip:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Icon Buttons */
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .badge {
+            position: relative;
+        }
+
+        .badge-count {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 10px;
+            min-width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(245, 87, 108, 0.4);
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 6px 18px;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* User Menu */
+        .user-menu-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
+        }
+
+        .menu {
+            position: absolute;
+            top: 100%;
+            right: 20px;
+            margin-top: 6px;
+            border-radius: 12px;
+            min-width: 220px;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            overflow: hidden;
+            z-index: 1001;
+            display: none;
+        }
+
+        .menu.show {
+            display: block;
+            animation: slideDown 0.2s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 16px;
+            text-decoration: none;
+            color: #333;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            margin: 4px 8px;
+        }
+
+        .menu-item:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transform: translateX(5px);
+        }
+
+        .menu-item.logout {
+            color: #d32f2f;
+        }
+
+        .menu-item.logout:hover {
+            background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(239, 83, 80, 0.1) 100%);
+        }
+
+        .menu-divider {
+            height: 1px;
+            background: rgba(0, 0, 0, 0.08);
+            margin: 8px 0;
+        }
+
+        .menu-icon {
+            color: #667eea;
+            font-size: 20px;
+        }
+
+        .menu-item.logout .menu-icon {
+            color: #d32f2f;
+        }
+
+        .menu-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Page Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 40px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: white;
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .hero-content {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideInUp 0.8s ease-out;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6b3f8f 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-outline {
+            border: 2px solid #667eea;
+            color: #667eea;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            border-color: #5568d3;
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .btn-white {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 8px 32px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-white-outline {
+            border: 2px solid white;
+            color: white;
+            background: transparent;
+        }
+
+        .btn-white-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+        }
+
+        .stat-card {
+            padding: 32px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            color: #667eea;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .stat-card:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .stat-card:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .stat-card:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        .stat-card:nth-child(4) {
+            animation-delay: 1.5s;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            color: #667eea;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .features {
+            background: white;
+        }
+
+        .testimonials {
+            background: #f8fafc;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 16px;
+            padding: 48px 32px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            animation: glow 3s infinite;
+        }
+
+        .feature-icon-container .material-icons {
+            font-size: 40px;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #374151;
+        }
+
+        .feature-description {
+            color: #6b7280;
+            line-height: 1.7;
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 50px rgba(102, 126, 234, 0.15);
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .testimonial-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .testimonial-role {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .testimonial-rating {
+            margin-bottom: 16px;
+        }
+
+        .star {
+            color: #f59e0b;
+            font-size: 20px;
+        }
+
+        .testimonial-text {
+            line-height: 1.6;
+            font-style: italic;
+            color: #6b7280;
+        }
+
+        /* CTA Section */
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: white;
+        }
+
+        .cta-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .toolbar {
+                padding: 8px 0;
+                min-height: 60px;
+            }
+
+            .brand-name {
+                font-size: 1.25rem;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .user-info {
+                padding: 6px 12px;
+            }
+
+            .auth-buttons {
+                gap: 8px;
+            }
+
+            .btn-header {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .hero {
+                padding: 60px 0;
+            }
+
+            .hero-buttons,
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .stat-card {
+                padding: 24px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+
+            .features-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.5rem;
+            }
+
+            .cta-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0 12px;
+            }
+
+            .role-chip {
+                display: none;
+            }
+
+            .brand-name {
+                font-size: 1.1rem;
+            }
+
+            .brand-subtitle {
+                font-size: 0.7rem;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .cta-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animation delays for features */
+        .feature-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .feature-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        /* Additional styles for animations */
+        .feature-card,
+        .testimonial-card,
+        .stat-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .feature-card.animate-in,
+        .testimonial-card.animate-in,
+        .stat-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        body.loaded .feature-card,
+        body.loaded .testimonial-card,
+        body.loaded .stat-card {
+            animation-play-state: running;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="toolbar">
+                <!-- Logo and Brand -->
+                <div class="logo-brand" onclick="window.location.href='{% url 'home' %}'">
+                    <div class="logo-container">
+                        <span class="material-icons logo-icon">local_hospital</span>
+                    </div>
+                    <div class="brand-text">
+                        <div class="brand-name">Dockter</div>
+                        <div class="brand-subtitle">Your Health, Our Priority</div>
+                    </div>
+                </div>
+
+                <div class="spacer"></div>
+
+                <!-- Authentication State -->
+                <div id="auth-section">
+                    {% if user.is_authenticated %}
+                    <!-- Authenticated State -->
+                    <div class="user-section" id="authenticated-state">
+                        <!-- Role Chip -->
+                        <div class="role-chip" id="user-role">
+                            {% if user.role %}
+                            {{ user.role|title }}
+                            {% else %}
+                            Patient
+                            {% endif %}
+                        </div>
+
+                        <!-- Messages -->
+                        <div class="badge">
+                            <button class="icon-btn" id="messages-btn">
+                                <span class="material-icons">message</span>
+                                <div class="badge-count">0</div>
+                            </button>
+                        </div>
+
+                        <!-- Notifications -->
+                        <div class="badge">
+                            <button class="icon-btn" id="notifications-btn">
+                                <span class="material-icons">notifications</span>
+                                <div class="badge-count">0</div>
+                            </button>
+                        </div>
+
+                        <!-- User Info -->
+                        <div class="user-info">
+                            <div class="user-avatar" id="user-avatar">
+                                {{ user.first_name|first|upper|default:"U" }}
+                            </div>
+                            <div class="user-name" id="user-name">
+                                {{ user.first_name|default:"User" }}
+                            </div>
+                        </div>
+
+                        <!-- User Menu -->
+                        <button class="user-menu-btn" id="user-menu-btn">
+                            <span class="material-icons">account_circle</span>
+                        </button>
+
+                        <!-- User Menu Dropdown -->
+                        <div class="menu" id="user-menu">
+                            <a href="{% url 'appointments' %}" class="menu-item">
+                                <span class="material-icons menu-icon">dashboard</span>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                            <a href="{% url 'profile' %}" class="menu-item">
+                                <span class="material-icons menu-icon">person</span>
+                                <span class="menu-text">Profile</span>
+                            </a>
+                            <div class="menu-divider"></div>
+                            <a href="{% url 'logout' %}" class="menu-item logout">
+                                <span class="material-icons menu-icon">exit_to_app</span>
+                                <span class="menu-text">Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% else %}
+                    <!-- Unauthenticated State -->
+                    <div class="auth-buttons" id="unauthenticated-state">
+                        <button class="btn-header btn-text"
+                            onclick="window.location.href='{% url 'login' %}'">Login</button>
+                        <button class="btn-header btn-contained"
+                            onclick="window.location.href='{% url 'register' %}'">Register</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Your Health,
+                    <br>
+                    Our Priority
+                </h1>
+                <p class="hero-subtitle">
+                    Connect with certified doctors, book appointments instantly,
+                    and manage your healthcare journey with our cutting-edge platform.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="get-started-btn">
+                        Get Started Free
+                        <span class="material-icons">arrow_forward</span>
+                    </button>
+                    <button class="btn btn-outline" id="find-doctors-btn">
+                        <span class="material-icons">map</span>
+                        Find Doctors Near Me
+                    </button>
+                    <button class="btn btn-outline" id="signin-btn">
+                        Sign In
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon material-icons">favorite</div>
+                    <div class="stat-number">50K+</div>
+                    <div class="stat-label">Happy Patients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon material-icons">local_hospital</div>
+                    <div class="stat-number">2K+</div>
+                    <div class="stat-label">Expert Doctors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon material-icons">trending_up</div>
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon material-icons">shield</div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Us?</h2>
+                <p class="section-subtitle">
+                    We're revolutionizing healthcare with innovative technology and compassionate care
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon-container"
+                        style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <span class="material-icons">local_hospital</span>
+                    </div>
+                    <h3 class="feature-title">Expert Doctors</h3>
+                    <p class="feature-description">
+                        Access to certified healthcare professionals with years of experience
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon-container"
+                        style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <span class="material-icons">schedule</span>
+                    </div>
+                    <h3 class="feature-title">Smart Scheduling</h3>
+                    <p class="feature-description">
+                        AI-powered appointment scheduling that works around your busy life
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon-container"
+                        style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <span class="material-icons">video_call</span>
+                    </div>
+                    <h3 class="feature-title">Telemedicine</h3>
+                    <p class="feature-description">
+                        High-quality video consultations with real-time health monitoring
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon-container"
+                        style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <span class="material-icons">security</span>
+                    </div>
+                    <h3 class="feature-title">Privacy First</h3>
+                    <p class="feature-description">
+                        Bank-level encryption ensures your health data stays completely secure
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What People Say</h2>
+                <p class="section-subtitle">
+                    Trusted by thousands of patients and healthcare professionals
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <!-- Testimonial 1 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">SJ</div>
+                        <div class="testimonial-info">
+                            <h3>Sarah Johnson</h3>
+                            <span class="testimonial-role">Patient</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Amazing platform! Booking appointments has never been easier."
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">MC</div>
+                        <div class="testimonial-info">
+                            <h3>Dr. Michael Chen</h3>
+                            <span class="testimonial-role">Doctor</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "Great interface for managing my practice and connecting with patients."
+                    </p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="testimonial-card">
+                    <div class="testimonial-header">
+                        <div class="testimonial-avatar">ED</div>
+                        <div class="testimonial-info">
+                            <h3>Emily Davis</h3>
+                            <span class="testimonial-role">Patient</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-rating">
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                        <span class="material-icons star">star</span>
+                    </div>
+                    <p class="testimonial-text">
+                        "The telemedicine feature is a game-changer for busy parents."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Get Started?</h2>
+                <p class="cta-subtitle">
+                    Join thousands of patients who trust us with their healthcare needs
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn btn-white" id="cta-get-started-btn">
+                        Start Your Journey
+                        <span class="material-icons">arrow_forward</span>
+                    </button>
+                    <button class="btn btn-white-outline" id="learn-more-btn">
+                        Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navigation and interaction logic
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check authentication status (you can replace this with your actual auth logic)
+            const isAuthenticated = false; // TODO: Replace with actual authentication check
+
+            // Button event handlers
+            function handleGetStarted() {
+                if (isAuthenticated) {
+                    window.location.href = '/patient';
+                } else {
+                    window.location.href = '/register';
+                }
+            }
+
+            function handleFindDoctors() {
+                window.location.href = '/find-doctors';
+            }
+
+            function handleSignIn() {
+                window.location.href = '/login';
+            }
+
+            function handleLearnMore() {
+                // Scroll to features section
+                document.querySelector('.features').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+
+            // Add event listeners
+            document.getElementById('get-started-btn').addEventListener('click', handleGetStarted);
+            document.getElementById('find-doctors-btn').addEventListener('click', handleFindDoctors);
+            document.getElementById('signin-btn').addEventListener('click', handleSignIn);
+            document.getElementById('cta-get-started-btn').addEventListener('click', handleGetStarted);
+            document.getElementById('learn-more-btn').addEventListener('click', handleLearnMore);
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animationPlayState = 'running';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.querySelectorAll('.feature-card, .testimonial-card, .stat-card').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add scroll-triggered animations
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            // Observe sections for scroll animations
+            document.querySelectorAll('section').forEach(section => {
+                scrollObserver.observe(section);
+            });
+
+            // Add loading animation
+            function initAnimations() {
+                // Add animation classes after page load
+                setTimeout(() => {
+                    document.body.classList.add('loaded');
+                }, 100);
+            }
+
+            initAnimations();
+        });
+
+        // Header Menu Toggle Script
+        const userMenuBtn = document.getElementById('user-menu-btn');
+        const userMenu = document.getElementById('user-menu');
+
+        if (userMenuBtn && userMenu) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userMenu.classList.toggle('show');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', () => {
+                userMenu.classList.remove('show');
+            });
+
+            // Prevent menu from closing when clicking inside
+            userMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Messages and notifications handlers
+        const messagesBtn = document.getElementById('messages-btn');
+        const notificationsBtn = document.getElementById('notifications-btn');
+
+        if (messagesBtn) {
+            messagesBtn.addEventListener('click', () => {
+                alert('Messages feature coming soon!');
+            });
+        }
+
+        if (notificationsBtn) {
+            notificationsBtn.addEventListener('click', () => {
+                alert('Notifications feature coming soon!');
+            });
+        }
+    </script>
+</body>
+
+</html>

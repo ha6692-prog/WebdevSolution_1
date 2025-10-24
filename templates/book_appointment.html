@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Healthcare</title>
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS styles here */
+        /* Add the CSS content from the provided implementation */
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-content">
+                <h1>Book Appointment</h1>
+                <p>Schedule your consultation with our expert doctors</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stepper Section -->
+        <div class="stepper-container">
+            <div class="stepper">
+                <div class="step active" id="step-1">
+                    <div class="step-icon">1</div>
+                    <div class="step-label">Select Doctor</div>
+                </div>
+                <div class="step" id="step-2">
+                    <div class="step-icon">2</div>
+                    <div class="step-label">Choose Date & Time</div>
+                </div>
+                <div class="step" id="step-3">
+                    <div class="step-icon">3</div>
+                    <div class="step-label">Appointment Details</div>
+                </div>
+                <div class="step" id="step-4">
+                    <div class="step-icon">4</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="card">
+            <div class="card-content">
+                <!-- Step 1: Select Doctor -->
+                <div class="step-content active" id="step-content-1">
+                    <h2 style="margin-bottom: 20px; color: #667eea; font-weight: 600;">Choose Your Doctor</h2>
+                    <div class="doctors-grid">
+                        <!-- Doctor cards will be dynamically generated -->
+                    </div>
+                </div>
+
+                <!-- Step 2: Choose Date & Time -->
+                <div class="step-content" id="step-content-2">
+                    <h2 style="margin-bottom: 20px; color: #667eea; font-weight: 600;">Select Date & Time</h2>
+                    <div class="datetime-grid">
+                        <div class="date-section">
+                            <div class="section-title">
+                                <span class="material-icons">calendar_today</span>
+                                Choose Date
+                            </div>
+                            <input type="date" class="date-input" id="appointment-date" min="">
+                        </div>
+                        <div class="time-section">
+                            <div class="section-title">
+                                <span class="material-icons">access_time</span>
+                                Available Times
+                            </div>
+                            <div class="time-slots" id="time-slots">
+                                <!-- Time slots will be dynamically generated -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: Appointment Details -->
+                <div class="step-content" id="step-content-3">
+                    <h2 style="margin-bottom: 20px; color: #667eea; font-weight: 600;">Appointment Details</h2>
+                    <div>
+                        <h3 style="margin-bottom: 15px; font-weight: 600;">Appointment Type</h3>
+                        <div class="appointment-types" id="appointment-types">
+                            <!-- Appointment types will be dynamically generated -->
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="reason">Reason for Visit</label>
+                            <textarea class="form-textarea" id="reason"
+                                placeholder="Please describe your primary concern..."></textarea>
+                            <div class="error-message" id="reason-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="symptoms">Symptoms (Optional)</label>
+                            <textarea class="form-textarea" id="symptoms"
+                                placeholder="List any symptoms you're experiencing..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Confirmation -->
+                <div class="step-content" id="step-content-4">
+                    <h2 style="margin-bottom: 20px; color: #667eea; font-weight: 600;">Appointment Summary</h2>
+                    <div class="confirmation-card">
+                        <div class="confirmation-grid">
+                            <div>
+                                <div class="doctor-summary">
+                                    <div class="summary-avatar" id="summary-avatar">SJ</div>
+                                    <div class="summary-details">
+                                        <div class="summary-name" id="summary-name">Dr. Sarah Johnson</div>
+                                        <div class="summary-specialty" id="summary-specialty">Cardiology</div>
+                                        <div class="summary-rating">
+                                            <span class="material-icons" style="font-size: 16px;">star</span>
+                                            <span id="summary-rating">4.9</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="detail-item">
+                                        <span class="material-icons detail-icon">calendar_today</span>
+                                        <span id="summary-date">Monday, January 1, 2023</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="material-icons detail-icon">access_time</span>
+                                        <span id="summary-time">9:00 AM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <span class="material-icons detail-icon">local_hospital</span>
+                                        <span id="summary-type">General Consultation</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="cost-breakdown">
+                                    <div class="cost-title">Cost Breakdown</div>
+                                    <div class="cost-item">
+                                        <span>Consultation Fee</span>
+                                        <span id="consultation-fee">$150</span>
+                                    </div>
+                                    <div class="cost-item" id="type-fee-container" style="display: none;">
+                                        <span id="type-fee-label">Type Fee</span>
+                                        <span id="type-fee">$0</span>
+                                    </div>
+                                    <div class="cost-divider"></div>
+                                    <div class="cost-total">
+                                        <span>Total</span>
+                                        <span id="total-fee">$150</span>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 20px;">
+                                    <div style="font-weight: 600; margin-bottom: 8px;">Reason for Visit:</div>
+                                    <div id="summary-reason" style="color: #6b7280;">No reason provided</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Success Screen (Hidden by default) -->
+                <div class="success-screen" id="success-screen" style="display: none;">
+                    <div class="success-icon">
+                        <span class="material-icons">check_circle</span>
+                    </div>
+                    <h2 class="success-title">Appointment Booked Successfully!</h2>
+                    <p class="success-message" id="success-message">
+                        Your appointment with Dr. Sarah Johnson has been confirmed for Monday, January 1, 2023 at 9:00
+                        AM.
+                    </p>
+                    <div class="success-alert">
+                        A confirmation email has been sent to your registered email address.
+                    </div>
+                    <button class="btn btn-primary" id="dashboard-btn">
+                        Return to Dashboard
+                    </button>
+                </div>
+
+                <!-- Loading Overlay (Hidden by default) -->
+                <div class="loading-overlay" id="loading-overlay" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Booking your appointment...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="navigation-buttons">
+            <button class="btn btn-outline" id="back-button" disabled>
+                <span class="material-icons">arrow_back</span>
+                Back
+            </button>
+            <button class="btn btn-primary" id="next-button">
+                Next
+                <span class="material-icons">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript logic here
+        // Add the JavaScript content from the provided implementation
+    </script>
+</body>
+
+</html>
