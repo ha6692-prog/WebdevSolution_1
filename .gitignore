@@ -1,0 +1,39 @@
+# Django
+*.pyc
+__pycache__/
+*.sqlite3
+*.db
+media/
+.env
+.venv/
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Static files (if collected)
+staticfiles/
+static/admin/
+
+# Local settings
+local_settings.py
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Pytest
+.pytest_cache/
